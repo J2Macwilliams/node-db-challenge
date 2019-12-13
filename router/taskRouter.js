@@ -76,7 +76,7 @@ router.put('/:id', validateId, validatePost, (req, res) => {
         .then(found => {
             taskDb.update(id, changes)
                 .then(update => {
-                    res.status(200).json({ message: "Updated with", description: `${changes.task_description}` , taskNotes: `${changes.task_notes}` , completed: `${changes.completed}`})
+                    res.status(200).json({ message: "Updated with", description: `${changes.task_description}` , taskNotes: `${changes.task_notes}` , completed: `${changes.completed}`, projectId: `${changes.project_id}`})
                 })
                 .catch((error) => {
                     res.status(500).json({ message: "The Update had problems", error })
