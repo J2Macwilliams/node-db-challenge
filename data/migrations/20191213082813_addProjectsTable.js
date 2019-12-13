@@ -19,7 +19,20 @@ exports.up = function(knex) {
 				.inTable('projects')
 				.onDelete('CASCADE') // CASCADE, RESTRICT, DO NOTHING, SET NULL,
 				.onUpdate('CASCADE');
-		});
+        })
+        .createTable('resources', tbl => {
+			tbl.increments();
+			tbl.string('name', 512).notNullable();
+			tbl.string('description', 512);
+			tbl
+				.integer('project_id')
+				.unsigned()
+				.notNullable()
+				.references('id')
+				.inTable('projects')
+				.onDelete('CASCADE') // CASCADE, RESTRICT, DO NOTHING, SET NULL,
+				.onUpdate('CASCADE');
+        })
 };
 
 exports.down = function(knex) {};
