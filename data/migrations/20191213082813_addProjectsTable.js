@@ -19,8 +19,8 @@ exports.up = function(knex) {
 				.inTable('projects')
 				.onDelete('CASCADE') // CASCADE, RESTRICT, DO NOTHING, SET NULL,
 				.onUpdate('CASCADE');
-        })
-        .createTable('resources', tbl => {
+		})
+		.createTable('resources', tbl => {
 			tbl.increments();
 			tbl.string('name', 512).notNullable();
 			tbl.string('description', 512);
@@ -32,7 +32,30 @@ exports.up = function(knex) {
 				.inTable('projects')
 				.onDelete('CASCADE') // CASCADE, RESTRICT, DO NOTHING, SET NULL,
 				.onUpdate('CASCADE');
-        })
+		})
+		.createTable('project_details', tbl => {
+			tbl.increments();
+			tbl.string('name', 512).notNullable();
+			tbl.string('description', 512);
+			tbl
+				.integer('project_id')
+				.unsigned()
+				.notNullable()
+				.references('id')
+				.inTable('projects')
+				.onDelete('CASCADE') // CASCADE, RESTRICT, DO NOTHING, SET NULL,
+				.onUpdate('CASCADE');
+			tbl
+				.integer('resource_id')
+				.unsigned()
+				.notNullable()
+				.references('id')
+				.inTable('resources')
+				.onDelete('CASCADE') // CASCADE, RESTRICT, DO NOTHING, SET NULL,
+				.onUpdate('CASCADE');
+		});
 };
 
-exports.down = function(knex) {};
+exports.down = function(knex) {
+    
+};
