@@ -1,9 +1,10 @@
 const express = require('express');
 
-const resourceDb = require('../helpers/resourceDb');
-
 const router = express.Router();
 
+router.use(express.json())
+
+const resourceDb = require('../helpers/resourceDb');
 // CRUD endpoints -------------------------------
 
 // Global GET endpoint

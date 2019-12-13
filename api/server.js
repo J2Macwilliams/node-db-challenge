@@ -20,6 +20,6 @@ res.send(`<h3>Create Projects to accomplish GREATNESS!</h3>`)
 server.use('/api/projects', projectRouter);
 server.use('/api/tasks', taskRouter);
 server.use('/api/resources', resourceRouter);
-server.use('/api/proj_details', projectDetailsRouter);
+// server.use('/api/proj_details', projectDetailsRouter);
 
 module.exports = server;    
