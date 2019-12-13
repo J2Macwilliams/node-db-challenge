@@ -36,7 +36,7 @@ router.get('/:id', validateId, (req, res) => {
 router.post('/', validatePost, (req, res) => {
     const projBody = req.body
 
-    taskDb.insert(projBody)
+    taskDb.add(projBody)
         .then(createProj => {
             res.status(200).json(createProj)
         })
