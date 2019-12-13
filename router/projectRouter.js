@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
 // GET endpoint by Id
 router.get('/:id', validateId, (req, res) => {
     const id = req.params.id
-    projDB.get(id)
+    projDB.getById(id)
         .then(found => {
             res.status(200).json(found)
         })
@@ -49,7 +49,7 @@ router.post('/', validatePost, (req, res) => {
 router.delete('/:id', validateId, (req, res) => {
     const id = req.params.id
 
-    projDB.get(id)
+    projDB.getById(id)
         .then(deletedProj => {
             projDB.remove(id, deletedProj)
                 .then(gone => {
@@ -69,13 +69,13 @@ router.delete('/:id', validateId, (req, res) => {
 // PUT by ID to Update projects
 router.put('/:id', validateId, validatePost, (req, res) => {
     const id = req.params.id
-    const createProj = req.body
+    const updateProj = req.body
 
-    projDB.get(id)
+    projDB.getById(id)
         .then(found => {
-            projDB.update(id, createProj)
+            projDB.update(id, updateProj)
                 .then(update => {
-                    res.status(200).json({ message: "Updated with", name: `${createProj}` })
+                    res.status(200).json({ message: "Updated with", projectName: `${updateProj.project_name}`, projectDescription: `${updateProj.project_description}`, completed: `${updateProj.completed}`})
                 })
                 .catch((error) => {
                     res.status(500).json({ message: "The Update had problems", error })
@@ -93,7 +93,7 @@ router.put('/:id', validateId, validatePost, (req, res) => {
 // Validation of ID with custom middleware 
 function validateId(req, res, next) {
     const id = req.params.id
-    projDB.get(id)
+    projDB.getById(id)
         .then(id => {
             req.project = id
         })

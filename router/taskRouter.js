@@ -22,7 +22,8 @@ router.get('/', (req, res) => {
 // GET endpoint by Id
 router.get('/:id', validateId, (req, res) => {
     const id = req.params.id
-    taskDb.get(id)
+    
+    taskDb.getById(id)
         .then(found => {
             res.status(200).json(found)
         })
@@ -49,7 +50,7 @@ router.post('/', validatePost, (req, res) => {
 router.delete('/:id', validateId, (req, res) => {
     const id = req.params.id
 
-    taskDb.get(id)
+    taskDb.getById(id)
         .then(deletedTask => {
             taskDb.remove(id, deletedTask)
                 .then(gone => {
@@ -69,13 +70,13 @@ router.delete('/:id', validateId, (req, res) => {
 // PUT by ID to Update tasks
 router.put('/:id', validateId, validatePost, (req, res) => {
     const id = req.params.id
-    const createdTask = req.body
+    const changes = req.body
 
     taskDb.get(id)
         .then(found => {
-            taskDb.update(id, createdTask)
+            taskDb.update(id, changes)
                 .then(update => {
-                    res.status(200).json({ message: "Updated with", description: `${createdTask.description}` })
+                    res.status(200).json({ message: "Updated with", description: `${changes.task_description}` , taskNotes: `${changes.task_notes}` , completed: `${changes.completed}`})
                 })
                 .catch((error) => {
                     res.status(500).json({ message: "The Update had problems", error })
