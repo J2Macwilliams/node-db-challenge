@@ -32,7 +32,7 @@ function get() {
 // }
 
 function getById(id) {
-	return db('tasks')
+	return db('projects')
 		.where({ id })
 		.first();
 }
