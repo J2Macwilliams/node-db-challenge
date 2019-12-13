@@ -36,7 +36,7 @@ router.get('/:id', validateId, (req, res) => {
 router.post('/', validatePost, (req, res) => {
     const projBody = req.body
 
-    prjDetDb.insert(projBody)
+    prjDetDb.add(projBody)
         .then(createProj => {
             res.status(200).json(createProj)
         })
@@ -113,3 +113,5 @@ function validatePost(req, res, next) {
         next();
     }
 }
+
+module.exports = router;
