@@ -1,7 +1,7 @@
 
 exports.seed = function(knex) {
   // Deletes ALL existing entries
-  return knex('tasks').del()
+  return knex('tasks').truncate()
     .then(function () {
       // Inserts seed entries
       return knex('tasks').insert([
@@ -11,7 +11,6 @@ exports.seed = function(knex) {
         {description: 'Network', notes:'Utilize all the resources I have.', completed:'false', project_id: 2},
         {description: 'Research Tiny Houses', notes:'Communicate with wife must haves for tiny house. ', completed:'false', project_id: 3},
         {description: 'Research plots and building needs for Tiny house', notes:'Analyze best tactics of making this happen', completed:'false', project_id: 3},
-        
       ]);
     });
 };

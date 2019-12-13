@@ -4,13 +4,13 @@ exports.up = function(knex) {
 			tbl.increments();
 			tbl.string('name', 128).notNullable();
 			tbl.string('description', 255);
-			tbl.boolean('completed').default(false).notNullable();
+			tbl.boolean('completed').default().notNullable();
 		})
 		.createTable('tasks', tbl => {
 			tbl.increments();
 			tbl.string('description', 512).notNullable();
 			tbl.string('notes', 512);
-			tbl.boolean('completed').default(false).notNullable();
+			tbl.boolean('completed').default().notNullable();
 			tbl
 				.integer('project_id')
 				.unsigned()
