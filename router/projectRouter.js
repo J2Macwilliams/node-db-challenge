@@ -21,8 +21,9 @@ router.get('/', (req, res) => {
 
 // GET endpoint by Id
 router.get('/:id', validateId, (req, res) => {
-    const id = req.params.id
-    projDB.getById(id)
+    const project_id = req.params.id
+
+    projDB.getById(project_id)
         .then(found => {
             res.status(200).json(found)
         })
