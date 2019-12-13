@@ -40,11 +40,24 @@ Demonstrate your understanding of this week's concepts by answering the followin
 
 - [ ] Explain the difference between `Relational Databases` and `SQL`.
 
+Relational Databases store data by grouping it in tables that have columns to identify characteristics of the data and rows that identify resources. 
+
+SQL (Structured Query Language) is the language used to communicate and search through the Relational Databases and return data.
+
+
 - [ ] Why do tables need a `primary key`?
+
+Tables need a primary key to have normalization and prevent anomalies. A unique primary key that identifies a resource makes accessing that resource very easy. Without is Data could get lost in the system.
+
 
 - [ ] What is the name given to a table column that references the primary key on another table.
 
+Foreign Key
+
 - [ ] What do we need in order to have a _many to many_ relationship between two tables.
+
+We need another connecting table that has Foreign Keys corresponding to respective tables. Can have additional columns.
+
 
 ## Minimum Viable Product
 
