@@ -4,24 +4,111 @@ const prjDetDb = require('../helpers/projectDetailsDb');
 
 const router = express.Router();
 
+// CRUD endpoints -------------------------------
+
+// Global GET endpoint
 router.get('/', (req, res) => {
-    
+
+    prjDetDb.get()
+        .then(found => {
+            res.status(200).json(found)
+        })
+        .catch(() => {
+            res.status(500).json({ message: "There was an error getting the projects." })
+        })
 });
 
-router.get('/:id', (req, res) => {
-    
+// GET endpoint by Id
+router.get('/:id', validateId, (req, res) => {
+    const id = req.params.id
+    prjDetDb.get(id)
+        .then(found => {
+            res.status(200).json(found)
+        })
+        .catch(() => {
+            res.status(500).json({ message: "There was an error getting the projects." })
+        })
 });
 
-router.post('/', (req, res) => {
-    
+
+// POST endpoint for new projects with validation of necessary information
+router.post('/', validatePost, (req, res) => {
+    const projBody = req.body
+
+    prjDetDb.insert(projBody)
+        .then(createProj => {
+            res.status(200).json(createProj)
+        })
+        .catch(() => {
+            res.status(500).json({ message: "There was an error creating that project." })
+        })
 });
 
-router.put('/:id', (req, res) => {
-    
+// DELETE by projects ID
+router.delete('/:id', validateId, (req, res) => {
+    const id = req.params.id
+
+    prjDetDb.get(id)
+        .then(deletedProj => {
+            prjDetDb.remove(id, deletedProj)
+                .then(gone => {
+                    res.status(200).json({ message: `The project with id: ${id} was deleted`, deletedProj })
+                })
+                .catch(() => {
+                    res.status(500).json({ message: "There was an error deleting the project" })
+                })
+        })
+        .catch(() => {
+            res.status(500).json({ message: "Deleting the project...Not Happening!" })
+        })
+
 });
 
-router.delete('/:id', (req, res) => {
-    
+
+// PUT by ID to Update projects
+router.put('/:id', validateId, validatePost, (req, res) => {
+    const id = req.params.id
+    const createProj = req.body
+
+    prjDetDb.get(id)
+        .then(found => {
+            prjDetDb.update(id, createProj)
+                .then(update => {
+                    res.status(200).json({ message: "Updated with", name: `${createProj}` })
+                })
+                .catch((error) => {
+                    res.status(500).json({ message: "The Update had problems", error })
+                })
+        })
+        .catch((error) => {
+            res.status(404).json({ message: "Invalid Id", error })
+        })
+
 });
 
-module.exports = router;
+// custom middleware-----------------------------
+
+
+// Validation of ID with custom middleware 
+function validateId(req, res, next) {
+    const id = req.params.id
+    prjDetDb.get(id)
+        .then(id => {
+            req.project = id
+        })
+        .catch(() => {
+            res.status(400).json({ message: "invalid project id" })
+        })
+    next();
+}
+
+// Validation custom middleware that POST has necessary information
+function validatePost(req, res, next) {
+    const projInfo = req.body
+
+    if (!projInfo) {
+        res.status(400).json({ message: "Missing project data." })
+    } else {
+        next();
+    }
+}
